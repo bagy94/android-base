@@ -1,5 +1,7 @@
 package hr.bagy94.base_android.retrofit
 
+/**
+ * First add dependency
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
@@ -19,3 +21,4 @@ fun provideOKHttpClient(creator: OkHttpClient.Builder.() -> Unit): OkHttpClient 
     creator(builder)
     return builder.build()
 }
+ */
