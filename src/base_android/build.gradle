@@ -1,0 +1,46 @@
+import Dependecies.*
+
+apply plugin: Plugins.library
+
+apply plugin: Plugins.kotlin
+
+apply plugin: Plugins.kotlinExtensions
+
+apply plugin: Plugins.safeArgs
+
+apply plugin: Plugins.maven
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+    }
+    dataBinding{
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //Kotlin
+    api Libs.kotlin
+    //Application compat
+    api Libs.appCompat
+    //ViewModel & LiveData
+    api Libs.lifecycle
+    //RxJava
+    api Libs.rxJava
+    //RxKotlin
+    api Libs.rxKotlin
+    //RxAndroid
+    api Libs.rxAndroid
+    //Navigation
+    api Libs.navigationFragment
+    api Libs.navigationUI
+    //RecyclerView
+    api Libs.recycler
+}
+repositories{
+    mavenCentral()
+}
