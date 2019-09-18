@@ -1,4 +1,4 @@
-import Dependecies.*
+apply from "dependecy.gradle"
 
 apply plugin: Plugins.library
 
