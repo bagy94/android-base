@@ -1,20 +1,19 @@
-apply from "dependecy.gradle"
+apply from: "dependecy.gradle"
 
-apply plugin: Plugins.library
+apply plugin: plugin.lib
 
-apply plugin: Plugins.kotlin
+apply plugin: plugin.kotlin
 
-apply plugin: Plugins.kotlinExtensions
+apply plugin: plugin.kotlin_extensions
 
-apply plugin: Plugins.safeArgs
+apply plugin: plugin.safe_args
 
-apply plugin: Plugins.maven
 android {
-    compileSdkVersion 28
+    compileSdkVersion compileVersion
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion minSDK
+        targetSdkVersion targetVersion
     }
     dataBinding{
         enabled = true
@@ -24,22 +23,22 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //Kotlin
-    api Libs.kotlin
+    api libs.kotlin
     //Application compat
-    api Libs.appCompat
+    api libs.app_compat
     //ViewModel & LiveData
-    api Libs.lifecycle
+    api libs.lifecycle
     //RxJava
-    api Libs.rxJava
+    api libs.rx_java
     //RxKotlin
-    api Libs.rxKotlin
+    api libs.rx_kotlin
     //RxAndroid
-    api Libs.rxAndroid
+    api libs.rx_android
     //Navigation
-    api Libs.navigationFragment
-    api Libs.navigationUI
+    api libs.nav_fragment
+    api libs.nav_ui
     //RecyclerView
-    api Libs.recycler
+    api libs.recycler
 }
 repositories{
     mavenCentral()
