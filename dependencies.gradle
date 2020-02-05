@@ -1,0 +1,35 @@
+ext {
+    plugin_app = "com.android.application"
+    plugin_lib = "com.android.library"
+    plugin_kotlin = "kotlin-android"
+    plugin_kotlin_ext = "kotlin-android-extensions"
+    plugin_kotlin_kapt = "kotlin-kapt"
+    plugin_safe_args = "androidx.navigation.safeargs.kotlin"
+
+
+    compileVersion = 29
+    minTarget = 21
+    targetVersion = 29
+    toolVersion = "29.0.2"
+    java_compatibility = 1.8
+    /** START DEPENDENCIES REGION **/
+    //Kotlin
+    kotlinLib = [
+            v  : "1.3.50",
+            dep: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:"
+    ]
+    kotlin = kotlinLib.dep + kotlinLib.v
+    //androidx.appcompat
+    appCompatLib = [
+            v  : "1.1.0",
+            dep: "androidx.appcompat:appcompat:"
+    ]
+    appCompat = appCompatLib.dep + appCompatLib.v
+    //androidx.core
+    androidXCoreLib = [
+            v  : "1.2.0",
+            dep: 'androidx.core:core-ktx:'
+    ]
+    androidXCore = androidXCoreLib.dep + androidXCoreLib.v
+
+}
