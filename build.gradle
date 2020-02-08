@@ -28,4 +28,18 @@ dependencies {
     api kotlin
     api appCompat
     api androidXCore
+    api androidLifecycle
+
+    api rxJava
+    api rxAndroid
+    api rxKotlin
+
+    api retrofit
+    api retrofitGSONConverter
+
+    api koin
+    api koinViewModel
+
+    api navigationComponentFragment
+    api navigationComponentNavigationUI
 }
