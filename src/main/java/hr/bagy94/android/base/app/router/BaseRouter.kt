@@ -2,23 +2,41 @@ package hr.bagy94.android.base.app.router
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import hr.bagy94.android.base.app.events.Back
-import hr.bagy94.android.base.app.events.Event
+import hr.bagy94.android.base.app.events.*
 import hr.bagy94.android.base.livedata.SingleLiveData
 
 abstract class BaseRouter {
-    private val backAction by lazy { SingleLiveData<Event>() }
+    val baseEvents:MutableLiveData<Event> by lazy { SingleLiveData<Event>() }
 
-    open fun observe(viewLifecycleOwner: LifecycleOwner, routeListener: RouteListener){
-        observe(backAction,viewLifecycleOwner){
-            if(it is Back) routeListener.back()
+    protected abstract fun <T:BaseDelegate> observeActually(viewLifecycleOwner: LifecycleOwner, baseDelegate: T)
+
+    open fun<T:BaseDelegate> observe(viewLifecycleOwner: LifecycleOwner, baseDelegate: T){
+        baseEvents.observeWith(viewLifecycleOwner){
+            onBaseEvents(it,baseDelegate)
+        }
+        observeActually(viewLifecycleOwner,baseDelegate)
+    }
+
+    protected open fun onBaseEvents(event: Event?, baseDelegate: BaseDelegate){
+        when(event){
+            is Back -> baseDelegate.back()
+            is LoaderUI -> {
+                if(event.isVisible){
+                    baseDelegate.showLoader()
+                }else{
+                    baseDelegate.hideLoader()
+                }
+            }
+            is NetworkErrorEvent -> baseDelegate.showNetworkError(event.networkError)
+            is ToastUI -> baseDelegate.showToast(event)
         }
     }
 
-    protected fun<T> observe(liveData: LiveData<T>,viewLifecycleOwner: LifecycleOwner, navigationControllerAction: (T?)->Unit){
-        liveData.observe(viewLifecycleOwner, Observer {
-            navigationControllerAction(it)
+    protected fun <T>LiveData<T>.observeWith(viewLifecycleOwner: LifecycleOwner, callDelegate:(T?)->Unit){
+        this.observe(viewLifecycleOwner, Observer {
+            callDelegate(it)
         })
     }
 }

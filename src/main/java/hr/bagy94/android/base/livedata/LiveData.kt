@@ -9,3 +9,10 @@ fun<T> MutableLiveData<T>.reSet(){
 fun<T> MutableLiveData<T>.rePost(){
     postValue(value)
 }
+
+infix fun<T>T.set(liveData:MutableLiveData<T>){
+    liveData.value = this
+}
+infix fun<T>T.post(liveData:MutableLiveData<T>){
+    liveData.postValue(this)
+}

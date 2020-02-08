@@ -33,6 +33,7 @@ dependencies {
     api rxJava
     api rxAndroid
     api rxKotlin
+    api rxBindings
 
     api retrofit
     api retrofitGSONConverter

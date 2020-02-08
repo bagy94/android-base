@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -14,43 +16,39 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import hr.bagy94.android.base.app.navigation.MainNavigationHolder
-import hr.bagy94.android.base.app.router.BaseRouter
-import hr.bagy94.android.base.app.router.RouteListener
+import com.jakewharton.rxbinding3.view.clicks
+import com.jakewharton.rxbinding3.widget.textChanges
+import hr.bagy94.android.base.app.const.DEBOUNCE_VIEW
+import hr.bagy94.android.base.app.events.ToastUI
+import hr.bagy94.android.base.app.navigation.MainNavControllerProvider
+import hr.bagy94.android.base.app.router.BaseDelegate
 import hr.bagy94.android.base.app.viewmodel.BaseVM
-import hr.bagy94.android.base.error.ErrorHandler
+import hr.bagy94.android.base.rx.observeMain
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
-abstract class BaseFragment<VM : BaseVM, BINDING : ViewDataBinding> : Fragment() {
+abstract class BaseFragment<VM : BaseVM<*>, BINDING : ViewDataBinding> : Fragment(), BaseDelegate{
     abstract val viewModel: VM
     abstract val layoutId: Int
-    abstract val errorHandler: ErrorHandler
 
-    private var compositeDisposable = CompositeDisposable()
     protected lateinit var binding: BINDING private set
     protected lateinit var mainNavController: NavController private set
 
-    protected open val routerNavigationController = object :
-        RouteListener {
-        override fun back() {
-            this@BaseFragment.back()
-        }
-    }
+    private var compositeDisposable = CompositeDisposable()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context !is MainNavigationHolder) {
-            throw RuntimeException("${context.javaClass.simpleName} must be subclass of MainNavigationHolder")
+        if (context !is MainNavControllerProvider) {
+            throw RuntimeException("${context.javaClass.simpleName} must implement ${MainNavControllerProvider::class.java.simpleName}")
         }
-        this.mainNavController = (context as MainNavigationHolder).mainNavigationController
+        this.mainNavController = (context as MainNavControllerProvider).navController
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.getRouter<BaseRouter>()!!.observe(viewLifecycleOwner, routerNavigationController)
+        viewModel.router.observe(viewLifecycleOwner, this)
     }
 
     override fun onCreateView(
@@ -69,6 +67,12 @@ abstract class BaseFragment<VM : BaseVM, BINDING : ViewDataBinding> : Fragment()
         super.onDestroyView()
     }
 
+    override fun showToast(toastUI: ToastUI) {
+        context?.run {
+            Toast.makeText(this,toastUI.message,toastUI.showDuration).show()
+        }
+    }
+
     protected open fun onCreateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -80,17 +84,40 @@ abstract class BaseFragment<VM : BaseVM, BINDING : ViewDataBinding> : Fragment()
     protected fun <T> LiveData<T>.observeNotNull(onChanged: (T) -> Unit) =
         this.observe(viewLifecycleOwner, Observer { it?.run(onChanged) })
 
-    protected fun <T> Observable<T>.subsribeToView(onNext: (T) -> Unit = {}) =
+    protected fun <T> Observable<T>.retryWithClicks(vararg view: View?) =
+        this.retryWhen { observableThr ->
+            if(view.isNotEmpty()){
+                Observable.merge(view.mapNotNull { it?.rxClick() })
+            }else{
+                observableThr
+            }
+        }
+
+    protected fun <T> Observable<T>.subscribeToView(onNext: (T) -> Unit = {}) =
         addDisposable(
-            this.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(onNext, { viewModel.error(errorHandler.parseError(it)) })
+            this.observeMain()
+                .subscribe(onNext, { viewModel.error(it) })
         )
 
     protected fun <T> Observable<T>.subscribeToViewModel(onNext: (T) -> Unit = {}) =
         viewModel.addDisposable(
-            this.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(onNext, { viewModel.error(errorHandler.parseError(it)) })
+            this.observeMain()
+                .subscribe(onNext, { viewModel.error(it) })
         )
+
+    /**
+     * Stream is on background thread!!!
+     */
+    protected fun View.rxClick(): Observable<Unit> =
+        clicks().throttleFirst(DEBOUNCE_VIEW,TimeUnit.MILLISECONDS)
+    /**
+     * Stream is on background thread!!!
+     */
+    protected fun EditText.rxInput() =
+        this.textChanges()
+            .skipInitialValue()
+            .debounce(DEBOUNCE_VIEW,TimeUnit.MILLISECONDS)
+
 
     protected fun addDisposable(vararg disposable: Disposable) {
         if (compositeDisposable.isDisposed) {
@@ -105,7 +132,8 @@ abstract class BaseFragment<VM : BaseVM, BINDING : ViewDataBinding> : Fragment()
     }
 
     protected fun navigateBackTo(
-        @IdRes destination: Int, inclusive: Boolean = false,
+        @IdRes destination: Int,
+        inclusive: Boolean = false,
         navController: NavController? = null
     ) {
         val controller = navController ?: findNavController()
@@ -116,5 +144,4 @@ abstract class BaseFragment<VM : BaseVM, BINDING : ViewDataBinding> : Fragment()
         val controller = navController ?: findNavController()
         controller.navigateUp()
     }
-
 }
