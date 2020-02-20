@@ -5,31 +5,38 @@ ext {
     plugin_kotlin_ext = "kotlin-android-extensions"
     plugin_kotlin_kapt = "kotlin-kapt"
     plugin_safe_args = "androidx.navigation.safeargs.kotlin"
-
-
     compileVersion = 29
     minTarget = 21
     targetVersion = 29
     toolVersion = "29.0.2"
     java_compatibility = 1.8
-    /** START DEPENDENCIES REGION **/
-    //Kotlin
-    kotlinLib = [
-            v  : "1.3.50",
-            dep: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:"
-    ]
-    kotlin = kotlinLib.dep + kotlinLib.v
-    //androidx.appcompat
-    appCompatLib = [
-            v  : "1.1.0",
-            dep: "androidx.appcompat:appcompat:"
-    ]
-    appCompat = appCompatLib.dep + appCompatLib.v
-    //androidx.core
-    androidXCoreLib = [
-            v  : "1.2.0",
-            dep: 'androidx.core:core-ktx:'
-    ]
-    androidXCore = androidXCoreLib.dep + androidXCoreLib.v
-
+    kotlin_v = '1.3.61'
+    kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_v"
+    appCompat_v = "1.1.0"
+    appCompat = "androidx.appcompat:appcompat:$appCompat_v"
+    androidXCore_v = "1.2.0"
+    androidXCore = "androidx.core:core-ktx:$androidXCore_v"
+    constraintLayout_v = "1.2.0"
+    constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayout_v"
+    androidLifecycle_v = '2.2.0'
+    androidLifecycle = "androidx.lifecycle:lifecycle-extensions:$androidLifecycle_v"
+    koin_v = "2.0.1"
+    koin = "org.koin:koin-android:$koin_v"
+    koinViewModel = "org.koin:koin-android-viewmodel:$koin_v"
+    koinScope = "org.koin:koin-android-scope:$koin_v"
+    rxJava_v = "2.2.12"
+    rxJava = "io.reactivex.rxjava2:rxjava:$rxJava_v"
+    rxAndroid_v = "2.1.1"
+    rxAndroid = "io.reactivex.rxjava2:rxandroid:$rxAndroid_v"
+    rxKotlin_v = "2.3.0"
+    rxKotlin = "io.reactivex.rxjava2:rxkotlin:$rxKotlin_v"
+    rxBindings_v = '3.1.0'
+    rxBindings = "com.jakewharton.rxbinding3:rxbinding:$rxBindings_v"
+    retrofit_v = '2.7.1'
+    retrofit = "com.squareup.retrofit2:retrofit:$retrofit_v"
+    retrofitGSONConverter = "com.squareup.retrofit2:converter-gson:$retrofit_v"
+    navigationComponent_v = "2.3.0-alpha01"
+    navigationComponentFragment = "androidx.navigation:navigation-fragment-ktx:$navigationComponent_v"
+    navigationComponentNavigationUI = "androidx.navigation:navigation-ui-ktx:$navigationComponent_v"
+    navigationComponentDynamicFeaturesFragment = "androidx.navigation:navigation-dynamic-features-fragment:$navigationComponent_v"
 }
