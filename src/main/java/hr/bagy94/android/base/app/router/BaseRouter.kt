@@ -5,10 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import hr.bagy94.android.base.app.events.*
-import hr.bagy94.android.base.livedata.SingleLiveData
 
 abstract class BaseRouter {
-    val baseEvents:MutableLiveData<Event> by lazy { SingleLiveData<Event>() }
+    abstract val baseEvents:MutableLiveData<Event>
 
     protected abstract fun <T:BaseDelegate> observeActually(viewLifecycleOwner: LifecycleOwner, baseDelegate: T)
 

@@ -18,11 +18,11 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
-import hr.bagy94.android.base.app.const.DEBOUNCE_VIEW
 import hr.bagy94.android.base.app.events.ToastUI
 import hr.bagy94.android.base.app.navigation.MainNavControllerProvider
 import hr.bagy94.android.base.app.router.BaseDelegate
 import hr.bagy94.android.base.app.viewmodel.BaseVM
+import hr.bagy94.android.base.const.DEBOUNCE_VIEW
 import hr.bagy94.android.base.rx.observeMain
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable

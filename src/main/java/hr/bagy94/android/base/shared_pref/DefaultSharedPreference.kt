@@ -3,7 +3,7 @@ package hr.bagy94.android.base.shared_pref
 import android.content.Context
 import android.content.SharedPreferences
 import hr.bagy94.android.base.BuildConfig
-import hr.bagy94.android.base.app.const.EMPTY_STRING
+import hr.bagy94.android.base.const.EMPTY_STRING
 
 private const val DEFAULT_SHARED_PREFERENCES = ".SHARED_PREFERENCES"
 private const val KEY_APP_VERSION = "KEY_APP_VERSION"
@@ -18,14 +18,6 @@ open class DefaultSharedPreferences(applicationContext: Context) : DefaultShared
 
     private val defaultSharedPreference : SharedPreferences
 
-    override var appVersion: String
-        get() = defaultSharedPreference.getString(KEY_APP_VERSION, BuildConfig.VERSION_NAME)!!
-        set(value) = defaultSharedPreference.edit().putString(KEY_APP_VERSION,value).apply()
-
-    override var apiURL: String
-        get() = defaultSharedPreference.getString(KEY_API_URL, EMPTY_STRING)!!
-        set(value) = defaultSharedPreference.edit().putString(KEY_API_URL,value).apply()
-
     init {
         val key = applicationContext.packageName
         defaultSharedPreference = applicationContext.getSharedPreferences("$key$DEFAULT_SHARED_PREFERENCES", Context.MODE_PRIVATE)
@@ -33,4 +25,14 @@ open class DefaultSharedPreferences(applicationContext: Context) : DefaultShared
             defaultSharedPreference.edit().putString(KEY_APP_VERSION,BuildConfig.VERSION_NAME).apply()
         }
     }
+
+    override var appVersion: String
+        get() = defaultSharedPreference.getString(KEY_APP_VERSION, BuildConfig.VERSION_NAME)!!
+        set(value) = defaultSharedPreference.edit().putString(KEY_APP_VERSION,value).apply()
+
+    override var apiURL: String
+        get() = defaultSharedPreference.getString(KEY_API_URL,
+            EMPTY_STRING
+        )!!
+        set(value) = defaultSharedPreference.edit().putString(KEY_API_URL,value).apply()
 }

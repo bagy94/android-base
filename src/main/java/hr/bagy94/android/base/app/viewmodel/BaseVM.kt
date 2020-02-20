@@ -39,17 +39,29 @@ abstract class BaseVM<R:BaseRouter>(val router: R, private val errorHandler: Err
         compositeDisposable.addAll(*disposable)
     }
 
+    /**
+     * Executes on main thread
+     */
     fun setLoaderVisibility(isVisible:Boolean){
         LoaderUI(isVisible) set router.baseEvents
     }
 
+    /**
+     * Executes on main thread
+     */
     fun showToast(toastMessage: String){
         ToastUI(toastMessage) set router.baseEvents
     }
 
+    /**
+     * Executes on any thread
+     */
     open fun <T>Observable<T>.setLiveData(liveData: MutableLiveData<T>) =
         this.observeMain().doOnNext { it set liveData }
 
+    /**
+     * Subscribe to observable and add disposable to @property compositeDisposable
+     */
     fun <T> Observable<T>.longSubscribe(showLoader:Boolean = false) {
         addDisposable(this
             .doOnSubscribe {
