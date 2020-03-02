@@ -1,11 +1,11 @@
-package hr.bagy94.android.base.app.fragment
+package hr.bagy94.android.base.fragment
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.databinding.DataBindingUtil
@@ -16,23 +16,21 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import com.jakewharton.rxbinding3.view.clicks
-import com.jakewharton.rxbinding3.widget.textChanges
-import hr.bagy94.android.base.app.events.ToastUI
-import hr.bagy94.android.base.app.navigation.MainNavControllerProvider
-import hr.bagy94.android.base.app.router.BaseDelegate
-import hr.bagy94.android.base.app.viewmodel.BaseVM
-import hr.bagy94.android.base.const.DEBOUNCE_VIEW
+import hr.bagy94.android.base.events.ToastUI
+import hr.bagy94.android.base.navigation.MainNavControllerProvider
+import hr.bagy94.android.base.router.BaseDelegate
+import hr.bagy94.android.base.router.BaseRouter
 import hr.bagy94.android.base.rx.observeMain
+import hr.bagy94.android.base.rx.rxClick
+import hr.bagy94.android.base.viewmodel.BaseVM
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import java.util.concurrent.TimeUnit
 
-abstract class BaseFragment<VM : BaseVM<*>, BINDING : ViewDataBinding> : Fragment(), BaseDelegate{
+abstract class BaseFragment<ROUTER: BaseRouter,VM : BaseVM<ROUTER>, BINDING : ViewDataBinding> : Fragment(),
+    BaseDelegate {
     abstract val viewModel: VM
-    abstract val layoutId: Int
-
+    protected abstract val layoutId: Int
     protected lateinit var binding: BINDING private set
     protected lateinit var mainNavController: NavController private set
 
@@ -73,15 +71,29 @@ abstract class BaseFragment<VM : BaseVM<*>, BINDING : ViewDataBinding> : Fragmen
         }
     }
 
+    override fun showKeyboard() {
+        if(view?.requestFocus() == true){
+            val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            inputMethodManager?.showSoftInput(view!!,InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
+
+    override fun hideKeyboard() {
+        view?.windowToken?.let { binder->
+            val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            inputMethodManager?.hideSoftInputFromWindow(binder, 0)
+        }
+    }
+
     protected open fun onCreateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): BINDING = DataBindingUtil.inflate(inflater, layoutId, container, false)
 
-    protected fun <T> LiveData<T>.observe(onChanged: (T?) -> Unit) =
+    protected fun <T> LiveData<T>.observeViewLifecycleOwner(onChanged: (T?) -> Unit) =
         this.observe(viewLifecycleOwner, Observer { onChanged(it) })
 
-    protected fun <T> LiveData<T>.observeNotNull(onChanged: (T) -> Unit) =
+    protected fun <T> LiveData<T>.observeViewLifecycleOwnerNotNull(onChanged: (T) -> Unit) =
         this.observe(viewLifecycleOwner, Observer { it?.run(onChanged) })
 
     protected fun <T> Observable<T>.retryWithClicks(vararg view: View?) =
@@ -104,19 +116,6 @@ abstract class BaseFragment<VM : BaseVM<*>, BINDING : ViewDataBinding> : Fragmen
             this.observeMain()
                 .subscribe(onNext, { viewModel.error(it) })
         )
-
-    /**
-     * Stream is on background thread!!!
-     */
-    protected fun View.rxClick(): Observable<Unit> =
-        clicks().throttleFirst(DEBOUNCE_VIEW,TimeUnit.MILLISECONDS)
-    /**
-     * Stream is on background thread!!!
-     */
-    protected fun EditText.rxInput() =
-        this.textChanges()
-            .skipInitialValue()
-            .debounce(DEBOUNCE_VIEW,TimeUnit.MILLISECONDS)
 
 
     protected fun addDisposable(vararg disposable: Disposable) {

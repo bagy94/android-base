@@ -35,6 +35,9 @@ ext {
     retrofit_v = '2.7.1'
     retrofit = "com.squareup.retrofit2:retrofit:$retrofit_v"
     retrofitGSONConverter = "com.squareup.retrofit2:converter-gson:$retrofit_v"
+    okhttp_v = "4.4.0"
+    okhttp = "com.squareup.okhttp3:okhttp:$okhttp_v"
+    okhttp_log = "com.squareup.okhttp3:logging-interceptor:$okhttp_v"
     navigationComponent_v = "2.3.0-alpha01"
     navigationComponentFragment = "androidx.navigation:navigation-fragment-ktx:$navigationComponent_v"
     navigationComponentNavigationUI = "androidx.navigation:navigation-ui-ktx:$navigationComponent_v"

@@ -1,4 +1,4 @@
-package hr.bagy94.android.base.app.navigation
+package hr.bagy94.android.base.navigation
 
 import androidx.navigation.NavController
 

@@ -1,21 +1,22 @@
-package hr.bagy94.android.base.app.viewmodel
+package hr.bagy94.android.base.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import hr.bagy94.android.base.app.events.LoaderUI
-import hr.bagy94.android.base.app.events.ToastUI
-import hr.bagy94.android.base.app.router.BaseRouter
 import hr.bagy94.android.base.error.APIError
 import hr.bagy94.android.base.error.ErrorHandler
 import hr.bagy94.android.base.error.NetworkError
 import hr.bagy94.android.base.error.UnknownError
+import hr.bagy94.android.base.events.KeyboardEventUI
+import hr.bagy94.android.base.events.LoaderUI
+import hr.bagy94.android.base.events.ToastUI
 import hr.bagy94.android.base.livedata.set
+import hr.bagy94.android.base.router.BaseRouter
 import hr.bagy94.android.base.rx.observeMain
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-abstract class BaseVM<R:BaseRouter>(val router: R, private val errorHandler: ErrorHandler): ViewModel(){
+abstract class BaseVM<R: BaseRouter>(val router: R, private val errorHandler: ErrorHandler): ViewModel(){
     private var compositeDisposable = CompositeDisposable()
 
     override fun onCleared() {
@@ -53,6 +54,12 @@ abstract class BaseVM<R:BaseRouter>(val router: R, private val errorHandler: Err
         ToastUI(toastMessage) set router.baseEvents
     }
 
+    /**
+     * Executes on main thread
+     */
+    fun setKeyboardVisibility(isVisible: Boolean){
+        KeyboardEventUI(isVisible) set router.baseEvents
+    }
     /**
      * Executes on any thread
      */
