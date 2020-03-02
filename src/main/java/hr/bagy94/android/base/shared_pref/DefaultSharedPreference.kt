@@ -17,9 +17,9 @@ interface DefaultSharedPreference {
     var appLocale: String
 }
 
-open class DefaultSharedPreferencesImpl(applicationContext: Context) : DefaultSharedPreference{
+abstract class DefaultSharedPreferencesImpl(applicationContext: Context) : DefaultSharedPreference{
 
-    private val defaultSharedPreference : SharedPreferences
+    protected val defaultSharedPreference : SharedPreferences
 
     init {
         val key = applicationContext.packageName
@@ -30,20 +30,18 @@ open class DefaultSharedPreferencesImpl(applicationContext: Context) : DefaultSh
     }
 
     override var appVersion: String
-        get() = getStringOrDefault(KEY_APP_VERSION, BuildConfig.VERSION_NAME)
+        get() = defaultSharedPreference.getString(KEY_APP_VERSION, BuildConfig.VERSION_NAME)!!
         set(value) = editor {putString(KEY_APP_VERSION,value) }
 
     override var apiURL: String
-        get() = getStringOrDefault(KEY_API_URL, EMPTY_STRING)
+        get() = defaultSharedPreference.getString(KEY_API_URL, EMPTY_STRING)!!
         set(value) = editor {  putString(KEY_API_URL,value) }
 
     override var appLocale: String
-        get() = getStringOrDefault(KEY_APP_LOCALE, DEFAULT_LOCALE)
+        get() = defaultSharedPreference.getString(KEY_APP_LOCALE, DEFAULT_LOCALE)!!
         set(value) = editor { putString(KEY_APP_LOCALE,value) }
 
     protected fun editor(editor:SharedPreferences.Editor.()->Unit){
         defaultSharedPreference.edit().also(editor).apply()
     }
-
-    protected fun getStringOrDefault(key:String,defaultValue:String):String = defaultSharedPreference.getString(key,defaultValue) ?: defaultValue
 }

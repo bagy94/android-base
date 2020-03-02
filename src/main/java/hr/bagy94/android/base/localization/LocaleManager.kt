@@ -5,9 +5,9 @@ import android.content.res.Configuration
 import hr.bagy94.android.base.shared_pref.DefaultSharedPreference
 import java.util.*
 
-class LocaleManager (val defaultSharedPreference: DefaultSharedPreference){
+class LocaleManager (private val defaultSharedPreference: DefaultSharedPreference){
 
-    fun updateContextConfiguration(context: Context):Context = context.createConfigurationContext(updateConfiguration(context.resources.configuration))
+    fun updateContextConfiguration(context: Context?):Context? = context?.createConfigurationContext(updateConfiguration(context.resources.configuration))
 
     fun updateConfiguration(configuration: Configuration):Configuration {
         val overrideConfig = Configuration(configuration)
