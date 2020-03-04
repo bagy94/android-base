@@ -1,2 +1,0 @@
-include ':app', ':app_common'
-rootProject.name='android_app_template'
