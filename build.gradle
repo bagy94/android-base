@@ -1,9 +1,10 @@
 apply from : 'dependencies.gradle'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: plugin_lib
 apply plugin: plugin_kotlin
 apply plugin: plugin_kotlin_ext
 apply plugin: plugin_kotlin_kapt
-
+group='com.github.bagy94'
 android {
     compileSdkVersion compileVersion
     buildToolsVersion toolVersion
