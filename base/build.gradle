@@ -1,0 +1,46 @@
+apply from : 'dependencies.gradle'
+apply plugin: plugin_lib
+apply plugin: plugin_kotlin
+apply plugin: plugin_kotlin_ext
+apply plugin: plugin_kotlin_kapt
+
+android {
+    compileSdkVersion compileVersion
+    buildToolsVersion toolVersion
+
+
+    defaultConfig {
+        minSdkVersion minTarget
+        targetSdkVersion targetVersion
+    }
+
+    dataBinding{
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility = java_compatibility
+        targetCompatibility = java_compatibility
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api kotlin
+    api appCompat
+    api androidXCore
+    api androidLifecycle
+
+    api rxJava
+    api rxAndroid
+    api rxKotlin
+    api rxBindings
+
+    api retrofit
+    api retrofitGSONConverter
+
+    api koin
+    api koinViewModel
+
+    api navigationComponentFragment
+    api navigationComponentNavigationUI
+}
