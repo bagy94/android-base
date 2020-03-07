@@ -1,5 +1,11 @@
-# android-template
-Template project for android development
+# Base module
+- Kotlin
+- MVVM
+- Koin
+- AndroidX
+- Retrofit
+- Navigation component
+- RxJava, RxAndroid, RxKotlin, RxBindings
 
 # Configuration
 Included dependenies in <i>base/base_dependencies.gradle</i>
