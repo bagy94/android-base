@@ -1,4 +1,11 @@
-# android-template
-Template project for android development
+# Base module
+- Kotlin
+- MVVM
+- Koin
+- AndroidX
+- Retrofit
+- Navigation component
+- RxJava, RxAndroid, RxKotlin, RxBindings
 
-( git clone --recurse-submodule -j8 https://github.com/bagy94/android-template.git [targetDirecory] )
+# Configuration
+Included dependenies in <i>base/base_dependencies.gradle</i>
