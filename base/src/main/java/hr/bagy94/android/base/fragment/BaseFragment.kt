@@ -32,7 +32,7 @@ abstract class BaseFragment<ROUTER: BaseRouter,VM : BaseVM<ROUTER>, BINDING : Vi
     abstract val viewModel: VM
     protected abstract val layoutId: Int
     protected lateinit var binding: BINDING private set
-    protected lateinit var mainNavController: NavController private set
+    protected lateinit var mainNavControllerProvider: MainNavControllerProvider private set
 
     private var compositeDisposable = CompositeDisposable()
 
@@ -41,7 +41,7 @@ abstract class BaseFragment<ROUTER: BaseRouter,VM : BaseVM<ROUTER>, BINDING : Vi
         if (context !is MainNavControllerProvider) {
             throw RuntimeException("${context.javaClass.simpleName} must implement ${MainNavControllerProvider::class.java.simpleName}")
         }
-        this.mainNavController = (context as MainNavControllerProvider).navController
+        this.mainNavControllerProvider = context
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
