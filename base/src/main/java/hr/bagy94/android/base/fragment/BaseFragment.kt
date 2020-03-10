@@ -58,6 +58,11 @@ abstract class BaseFragment<ROUTER: BaseRouter,VM : BaseVM<ROUTER>, BINDING : Vi
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.initViews()
+    }
+
     override fun onDestroyView() {
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
@@ -142,5 +147,9 @@ abstract class BaseFragment<ROUTER: BaseRouter,VM : BaseVM<ROUTER>, BINDING : Vi
     protected fun back(navController: NavController? = null) {
         val controller = navController ?: findNavController()
         controller.navigateUp()
+    }
+
+    protected open fun BINDING.initViews(){
+
     }
 }
