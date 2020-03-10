@@ -12,6 +12,7 @@ abstract class BaseApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initKoin()
+        applyDefaultApiKey()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -24,4 +25,6 @@ abstract class BaseApp : Application() {
         }
     }
     protected abstract fun provideKoinModules() : List<Module>
+
+    protected abstract fun applyDefaultApiKey()
 }

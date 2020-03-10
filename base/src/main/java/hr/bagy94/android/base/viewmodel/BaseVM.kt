@@ -2,6 +2,7 @@ package hr.bagy94.android.base.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import hr.bagy94.android.base.BuildConfig
 import hr.bagy94.android.base.error.APIError
 import hr.bagy94.android.base.error.ErrorHandler
 import hr.bagy94.android.base.error.NetworkError
@@ -17,7 +18,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 abstract class BaseVM<R: BaseRouter>(val router: R, private val errorHandler: ErrorHandler): ViewModel(){
-    private var compositeDisposable = CompositeDisposable()
+    protected var compositeDisposable = CompositeDisposable()
 
     override fun onCleared() {
         if(!compositeDisposable.isDisposed){
@@ -27,6 +28,8 @@ abstract class BaseVM<R: BaseRouter>(val router: R, private val errorHandler: Er
     }
 
     open fun error(thr:Throwable){
+        if(BuildConfig.DEBUG)
+            thr.printStackTrace()
         when(val error = errorHandler.parseError(thr)){
             is NetworkError -> onNetworkError(error)
             is UnknownError -> error.message?.let { showToast(it) }
@@ -77,7 +80,9 @@ abstract class BaseVM<R: BaseRouter>(val router: R, private val errorHandler: Er
                 if(showLoader){
                     setLoaderVisibility(false)
                 }
-            }.subscribe({},{ thr-> error(errorHandler.parseError(thr))}))
+            }.subscribe({},{ thr->
+                error(errorHandler.parseError(thr))
+            }))
     }
 
     protected open fun onNetworkError(error:NetworkError){

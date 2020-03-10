@@ -7,11 +7,16 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import hr.bagy94.android.base.localization.LocaleManager
 import hr.bagy94.android.base.navigation.MainNavControllerProvider
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 abstract class BaseActivity : AppCompatActivity(),
     MainNavControllerProvider {
     protected abstract val layoutId : Int
     protected abstract val localeManager : LocaleManager
+    private var compositeDisposable : CompositeDisposable= CompositeDisposable()
+
     override val navController: NavController
         get() = findNavController(android.R.id.content)
 
@@ -22,5 +27,25 @@ abstract class BaseActivity : AppCompatActivity(),
 
     override fun applyOverrideConfiguration(overrideConfiguration: Configuration) {
         super.applyOverrideConfiguration(localeManager.updateConfiguration(overrideConfiguration))
+    }
+
+    override fun onDestroy() {
+        if(!compositeDisposable.isDisposed)
+            compositeDisposable.dispose()
+        super.onDestroy()
+    }
+
+    protected fun <T>Observable<T>.subscribeToActivity(onNext:T.()->Unit={}) =
+        this.subscribe(onNext,::onObservableError).add()
+
+
+    protected open fun onObservableError(thr:Throwable?){
+
+    }
+
+    protected fun Disposable.add(){
+        if(compositeDisposable.isDisposed)
+            compositeDisposable = CompositeDisposable()
+        compositeDisposable.add(this)
     }
 }
