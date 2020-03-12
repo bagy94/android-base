@@ -27,7 +27,7 @@ Add library dependecy to module build.gradle
 ```
 dependencies {
   ...
-  implementation 'com.github.bagy94:android-base:1.1.5-alpha'
+  implementation 'com.github.bagy94:android-base:<version>'
   ...
 }
 
