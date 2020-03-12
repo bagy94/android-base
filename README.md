@@ -1,6 +1,5 @@
 
-[![Release](https://jitpack.io/v/bagy94/android-base.svg)]
-(https://jitpack.io/#bagy94/android-base)
+[![Release](https://jitpack.io/v/bagy94/android-base.svg)](https://jitpack.io/#bagy94/android-base)
 
 # Base module
 - Kotlin
