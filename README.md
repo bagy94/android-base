@@ -1,4 +1,4 @@
-
+[![Release](https://jitpack.io/v/bagy94/android-base.svg)](https://jitpack.io/#bagy94/android-base)
 # Base module
 - Kotlin
 - MVVM
@@ -21,7 +21,6 @@ allprojects {
 }
 ```
 Add library dependecy to module build.gradle
-[![Release](https://jitpack.io/v/bagy94/android-base.svg)](https://jitpack.io/#bagy94/android-base)
 ```
 dependencies {
   ...
