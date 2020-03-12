@@ -38,6 +38,7 @@ dependencies {
 
     api retrofit
     api retrofitGSONConverter
+    api retrofitRxJavaAdapter
 
     api koin
     api koinViewModel
