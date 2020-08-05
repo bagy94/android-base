@@ -15,9 +15,10 @@ android {
         targetSdkVersion targetVersion
     }
 
-    dataBinding{
-        enabled = true
+    buildFeatures{
+        dataBinding = true
     }
+
     compileOptions {
         sourceCompatibility = java_compatibility
         targetCompatibility = java_compatibility
