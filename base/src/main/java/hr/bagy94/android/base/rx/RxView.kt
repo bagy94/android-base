@@ -2,8 +2,8 @@ package hr.bagy94.android.base.rx
 
 import android.view.View
 import android.widget.EditText
-import com.jakewharton.rxbinding3.view.clicks
-import com.jakewharton.rxbinding3.widget.textChanges
+import com.jakewharton.rxbinding4.view.clicks
+import com.jakewharton.rxbinding4.widget.textChanges
 import hr.bagy94.android.base.const.DEBOUNCE_VIEW
 import java.util.concurrent.TimeUnit
 

@@ -13,9 +13,9 @@ import hr.bagy94.android.base.events.ToastUI
 import hr.bagy94.android.base.livedata.set
 import hr.bagy94.android.base.router.BaseRouter
 import hr.bagy94.android.base.rx.observeMain
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 abstract class BaseVM<R: BaseRouter>(val router: R, private val errorHandler: ErrorHandler): ViewModel(){
     protected var compositeDisposable = CompositeDisposable()

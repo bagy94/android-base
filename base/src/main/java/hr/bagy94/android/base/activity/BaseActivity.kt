@@ -7,9 +7,9 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import hr.bagy94.android.base.localization.LocaleManager
 import hr.bagy94.android.base.navigation.MainNavControllerProvider
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 abstract class BaseActivity : AppCompatActivity(),
     MainNavControllerProvider {

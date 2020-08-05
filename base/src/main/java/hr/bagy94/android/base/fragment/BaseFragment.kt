@@ -21,11 +21,10 @@ import hr.bagy94.android.base.navigation.MainNavControllerProvider
 import hr.bagy94.android.base.router.BaseDelegate
 import hr.bagy94.android.base.router.BaseRouter
 import hr.bagy94.android.base.rx.observeMain
-import hr.bagy94.android.base.rx.rxClick
 import hr.bagy94.android.base.viewmodel.BaseVM
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 abstract class BaseFragment<ROUTER: BaseRouter,VM : BaseVM<ROUTER>, BINDING : ViewDataBinding> : Fragment(),
     BaseDelegate {
@@ -100,15 +99,6 @@ abstract class BaseFragment<ROUTER: BaseRouter,VM : BaseVM<ROUTER>, BINDING : Vi
 
     protected fun <T> LiveData<T>.observeViewLifecycleOwnerNotNull(onChanged: (T) -> Unit) =
         this.observe(viewLifecycleOwner, Observer { it?.run(onChanged) })
-
-    protected fun <T> Observable<T>.retryWithClicks(vararg view: View?) =
-        this.retryWhen { observableThr ->
-            if(view.isNotEmpty()){
-                Observable.merge(view.mapNotNull { it?.rxClick() })
-            }else{
-                observableThr
-            }
-        }
 
     protected fun <T> Observable<T>.subscribeToView(onNext: (T) -> Unit = {}) =
         addDisposable(

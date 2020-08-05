@@ -24,19 +24,19 @@ ext {
     koin = "org.koin:koin-android:$koin_v"
     koinViewModel = "org.koin:koin-android-viewmodel:$koin_v"
     //Rx
-    rxJava_v = "2.2.12"
-    rxJava = "io.reactivex.rxjava2:rxjava:$rxJava_v"
-    rxAndroid_v = "2.1.1"
-    rxAndroid = "io.reactivex.rxjava2:rxandroid:$rxAndroid_v"
-    rxKotlin_v = "2.3.0"
-    rxKotlin = "io.reactivex.rxjava2:rxkotlin:$rxKotlin_v"
-    rxBindings_v = '3.1.0'
-    rxBindings = "com.jakewharton.rxbinding3:rxbinding:$rxBindings_v"
+    rxJava_v = '3.0.4'
+    rxJava = "io.reactivex.rxjava3:rxjava:$rxJava_v"
+    rxAndroid_v = "3.0.0"
+    rxAndroid = "io.reactivex.rxjava3:rxandroid:$rxAndroid_v"
+    rxKotlin_v = '3.0.0'
+    rxKotlin = "io.reactivex.rxjava3:rxkotlin:$rxKotlin_v"
+    rxBindings_v = '4.0.0'
+    rxBindings = "com.jakewharton.rxbinding4:rxbinding:$rxBindings_v"
     //Retrofit + Networking
     retrofit_v = '2.9.0'
     retrofit = "com.squareup.retrofit2:retrofit:$retrofit_v"
     retrofitGSONConverter = "com.squareup.retrofit2:converter-gson:$retrofit_v"
-    retrofitRxJavaAdapter = "com.squareup.retrofit2:adapter-rxjava2:$retrofit_v"
+    retrofitRxJavaAdapter = "com.squareup.retrofit2:adapter-rxjava3:$retrofit_v"
     okhttp_v = "4.4.0"
     okhttp = "com.squareup.okhttp3:okhttp:$okhttp_v"
     okhttp_log = "com.squareup.okhttp3:logging-interceptor:$okhttp_v"
