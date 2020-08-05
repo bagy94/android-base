@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * Only first {@see androidx.lifecycle.LifecycleOwner} will be notified
  */
-class SingleLiveData<T> : MutableLiveData<T> (){
+open class SingleLiveData<T> : MutableLiveData<T> (){
     private val isConsumed = AtomicBoolean(false)
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         if(hasActiveObservers()){
@@ -23,12 +23,12 @@ class SingleLiveData<T> : MutableLiveData<T> (){
         })
     }
 
-    override fun setValue(value: T) {
+    override fun setValue(value: T?) {
         isConsumed.set(false)
         super.setValue(value)
     }
 
-    override fun postValue(value: T) {
+    override fun postValue(value: T?) {
         isConsumed.set(false)
         super.postValue(value)
     }

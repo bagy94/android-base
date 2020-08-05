@@ -3,23 +3,16 @@ package hr.bagy94.android.base.activity
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import hr.bagy94.android.base.localization.LocaleManager
-import hr.bagy94.android.base.navigation.MainNavControllerProvider
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import org.koin.android.ext.android.inject
 
-abstract class BaseActivity : AppCompatActivity(),
-    MainNavControllerProvider {
+abstract class BaseActivity : AppCompatActivity() {
     protected abstract val layoutId : Int
-    protected abstract val localeManager : LocaleManager
+    protected val localeManager : LocaleManager by inject()
     private var compositeDisposable : CompositeDisposable= CompositeDisposable()
-
-    override val navController: NavController
-        get() = findNavController(android.R.id.content)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layoutId)
@@ -30,12 +23,11 @@ abstract class BaseActivity : AppCompatActivity(),
     }
 
     override fun onDestroy() {
-        if(!compositeDisposable.isDisposed)
-            compositeDisposable.dispose()
+        if(!compositeDisposable.isDisposed) compositeDisposable.dispose()
         super.onDestroy()
     }
 
-    protected fun <T>Observable<T>.subscribeToActivity(onNext:T.()->Unit={}) =
+    protected fun <T> Observable<T>.subscribeToActivity(onNext:T.()->Unit={}) =
         this.subscribe(onNext,::onObservableError).add()
 
 

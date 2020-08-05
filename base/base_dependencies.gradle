@@ -6,7 +6,7 @@ ext {
     plugin_kotlin_kapt = "kotlin-kapt" // apply plugin : plugin_kotlin_kapt
     plugin_android_maven = 'com.github.dcendents.android-maven' // apply plugin : plugin_android_maven
     compileVersion = 29
-    minTarget = 21
+    minTarget = 23
     targetVersion = 29
     toolVersion = "29.0.2"
     java_compatibility = 1.8
@@ -15,10 +15,12 @@ ext {
     // Android
     appCompat_v = "1.1.0"
     appCompat = "androidx.appcompat:appcompat:$appCompat_v"
-    androidXCore_v = '1.3.1'
+    androidXCore_v = '1.3.0'
     androidXCore = "androidx.core:core-ktx:$androidXCore_v"
     androidLifecycle_v = '2.2.0'
     androidLifecycle = "androidx.lifecycle:lifecycle-extensions:$androidLifecycle_v"
+    androidMaterial_v = '1.3.0-alpha01'
+    androidMaterial = "com.google.android.material:material:$androidMaterial_v"
     //Koin
     koin_v = "2.0.1"
     koin = "org.koin:koin-android:$koin_v"

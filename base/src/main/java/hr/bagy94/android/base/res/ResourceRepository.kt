@@ -11,7 +11,7 @@ interface ResourceRepository {
     fun getResources() : Resources
 }
 
-open class StringRepository(private val resources:Resources) :
+open class ResourcesRepositoryImpl(private val resources:Resources) :
     ResourceRepository {
 
     override fun getString(@StringRes stringResId: Int): String = resources.getString(stringResId)

@@ -7,8 +7,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlin.math.absoluteValue
 
-class BottomSheetCoordinator @JvmOverloads constructor(
+open class BottomSheetCoordinator @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : CoordinatorLayout(context, attrs, defStyleAttr) {
 
@@ -19,9 +20,9 @@ class BottomSheetCoordinator @JvmOverloads constructor(
 
     protected val mBottomSheets = mutableMapOf<Int,BottomSheetBehavior<View>>()
     var listener: BottomSheetListener? = null
-    private val backgroundView:View
+    protected val backgroundView:View = View(context)
+    protected open val maxBackgroundAlpha = 0.8f
     init {
-        backgroundView = View(context)
         backgroundView.setBackgroundColor(ContextCompat.getColor(context,android.R.color.black))
         backgroundView.alpha = 0f
         backgroundView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT)
@@ -34,6 +35,7 @@ class BottomSheetCoordinator @JvmOverloads constructor(
     }
 
     override fun onDetachedFromWindow() {
+        mBottomSheets.forEach{ it.value.removeBottomSheetCallback(bottomSheetCallback)}
         mBottomSheets.clear()
         super.onDetachedFromWindow()
     }
@@ -43,11 +45,11 @@ class BottomSheetCoordinator @JvmOverloads constructor(
         super.detachAllViewsFromParent()
     }
 
-    fun expand(view: View){
+    open fun expand(view: View){
         setState(view,BottomSheetBehavior.STATE_EXPANDED)
     }
 
-    fun hide(view: View){
+    open fun hide(view: View){
         setState(view,BottomSheetBehavior.STATE_HIDDEN)
     }
 
@@ -65,21 +67,32 @@ class BottomSheetCoordinator @JvmOverloads constructor(
     protected fun View.asBottomSheet(){
         val behavior = BottomSheetBehavior.from(this)
         mBottomSheets[id] = behavior
-        behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
-            override fun onSlide(p0: View, p1: Float) {
-                listener?.onSheetSlide(p0,p1)
-                backgroundView.alpha = p1
-
-            }
-
-            override fun onStateChanged(p0: View, p1: Int) {
-                listener?.onSheetStateChanged(p0,p1)
-            }
-        })
+        behavior.addBottomSheetCallback(bottomSheetCallback)
         if(behavior.isHideable){
             behavior.state = BottomSheetBehavior.STATE_HIDDEN
         }else{
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+    }
+
+    protected open fun onSlide(view: View,percentage:Float){
+        if (percentage >= -1 && percentage <= 1){
+            backgroundView.alpha = maxBackgroundAlpha - percentage.absoluteValue
+        }
+        listener?.onSheetSlide(view,percentage)
+    }
+
+    protected open fun onStateChanged(view: View, state:Int){
+        listener?.onSheetStateChanged(view,state)
+    }
+
+    protected open val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback(){
+        override fun onSlide(p0: View, p1: Float) {
+            this@BottomSheetCoordinator.onSlide(p0,p1)
+
+        }
+        override fun onStateChanged(p0: View, p1: Int) {
+            this@BottomSheetCoordinator.onStateChanged(p0,p1)
         }
     }
 
