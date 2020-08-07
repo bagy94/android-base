@@ -22,7 +22,7 @@ ext {
     androidMaterial_v = '1.3.0-alpha01'
     androidMaterial = "com.google.android.material:material:$androidMaterial_v"
     //Koin
-    koin_v = "2.0.1"
+    koin_v = "2.1.6"
     koin = "org.koin:koin-android:$koin_v"
     koinViewModel = "org.koin:koin-android-viewmodel:$koin_v"
     //Rx
