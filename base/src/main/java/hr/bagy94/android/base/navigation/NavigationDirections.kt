@@ -3,6 +3,8 @@ package hr.bagy94.android.base.navigation
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 
 
 sealed class NavigationTarget
@@ -22,3 +24,5 @@ data class FragmentNavigationDirection(
     val fragmentManager: FragmentManager? = null,
     val animations : NavigationTransactionAnimation? = FragmentTransitionAnimation(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 ): NavigationTarget()
+
+data class NavDirectionsWrapper (val navDirections: NavDirections, val controller: NavController? = null) : NavigationTarget()
