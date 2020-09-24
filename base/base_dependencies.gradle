@@ -13,24 +13,24 @@ ext {
     // Kotlin
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // Android
-    appCompat_v = "1.1.0"
+    appCompat_v = '1.2.0'
     appCompat = "androidx.appcompat:appcompat:$appCompat_v"
-    androidXCore_v = '1.3.0'
+    androidXCore_v = '1.3.1'
     androidXCore = "androidx.core:core-ktx:$androidXCore_v"
     androidLifecycle_v = '2.2.0'
     androidLifecycle = "androidx.lifecycle:lifecycle-extensions:$androidLifecycle_v"
-    androidMaterial_v = '1.3.0-alpha01'
+    androidMaterial_v = '1.3.0-alpha02'
     androidMaterial = "com.google.android.material:material:$androidMaterial_v"
     //Koin
     koin_v = "2.1.6"
     koin = "org.koin:koin-android:$koin_v"
     koinViewModel = "org.koin:koin-android-viewmodel:$koin_v"
     //Rx
-    rxJava_v = '3.0.4'
+    rxJava_v = '3.0.6'
     rxJava = "io.reactivex.rxjava3:rxjava:$rxJava_v"
     rxAndroid_v = "3.0.0"
     rxAndroid = "io.reactivex.rxjava3:rxandroid:$rxAndroid_v"
-    rxKotlin_v = '3.0.0'
+    rxKotlin_v = '3.0.1'
     rxKotlin = "io.reactivex.rxjava3:rxkotlin:$rxKotlin_v"
     rxBindings_v = '4.0.0'
     rxBindings = "com.jakewharton.rxbinding4:rxbinding:$rxBindings_v"
@@ -39,7 +39,7 @@ ext {
     retrofit = "com.squareup.retrofit2:retrofit:$retrofit_v"
     retrofitGSONConverter = "com.squareup.retrofit2:converter-gson:$retrofit_v"
     retrofitRxJavaAdapter = "com.squareup.retrofit2:adapter-rxjava3:$retrofit_v"
-    okhttp_v = "4.4.0"
+    okhttp_v = "4.9.0"
     okhttp = "com.squareup.okhttp3:okhttp:$okhttp_v"
     okhttp_log = "com.squareup.okhttp3:logging-interceptor:$okhttp_v"
     //Android Jetpack
