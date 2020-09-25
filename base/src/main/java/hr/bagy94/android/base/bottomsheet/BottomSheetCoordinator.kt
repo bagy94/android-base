@@ -7,6 +7,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import hr.bagy94.android.base.adapter.setVisibleOrGone
+import hr.bagy94.android.base.view.gone
 import kotlin.math.absoluteValue
 
 open class BottomSheetCoordinator @JvmOverloads constructor(
@@ -22,11 +24,27 @@ open class BottomSheetCoordinator @JvmOverloads constructor(
     var listener: BottomSheetListener? = null
     protected val backgroundView:View = View(context)
     protected open val maxBackgroundAlpha = 0.8f
+    protected open val backgroundVisibilityOffset = 0.8f
+    private var isBackgroundAdded = false
     init {
         backgroundView.setBackgroundColor(ContextCompat.getColor(context,android.R.color.black))
         backgroundView.alpha = 0f
         backgroundView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT)
-        addView(backgroundView)
+        backgroundView.setOnClickListener {
+            mBottomSheets.forEach { it.value.state = BottomSheetBehavior.STATE_HIDDEN }
+        }
+    }
+
+    override fun onViewAdded(child: View?) {
+        super.onViewAdded(child)
+        child?.let {
+            if (hasBottomSheetBehaviour(it) && !isBackgroundAdded){
+                isBackgroundAdded = true
+                val backgroundIndex = childCount - 1
+                addView(backgroundView,backgroundIndex)
+                backgroundView.gone()
+            }
+        }
     }
 
     override fun onAttachedToWindow() {
@@ -76,9 +94,12 @@ open class BottomSheetCoordinator @JvmOverloads constructor(
     }
 
     protected open fun onSlide(view: View,percentage:Float){
-        if (percentage >= -1 && percentage <= 1){
-            backgroundView.alpha = maxBackgroundAlpha - percentage.absoluteValue
+        val absPercentage = percentage.absoluteValue
+        if (absPercentage in 0.0f..maxBackgroundAlpha){
+            backgroundView.alpha = maxBackgroundAlpha - absPercentage
         }
+        backgroundView.setVisibleOrGone(absPercentage < backgroundVisibilityOffset)
+        recalculateBackgroundVerticalOffset(view,percentage)
         listener?.onSheetSlide(view,percentage)
     }
 
@@ -97,4 +118,8 @@ open class BottomSheetCoordinator @JvmOverloads constructor(
     }
 
     fun hasBottomSheetBehaviour(view: View) = (view.layoutParams as? LayoutParams)?.behavior is BottomSheetBehavior
+
+    protected open fun recalculateBackgroundVerticalOffset(sheet:View,slidePercentage:Float){
+        backgroundView.y = sheet.y - this.height
+    }
 }
