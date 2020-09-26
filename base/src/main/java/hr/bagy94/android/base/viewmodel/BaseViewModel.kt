@@ -114,5 +114,3 @@ abstract class BaseViewModel<ROUTER:Router>() : ViewModel(), DataBindingObservab
         mCallbacks!!.notifyCallbacks(this, fieldId, null)
     }
 }
-
-typealias DataBindingObservable = androidx.databinding.Observable

@@ -1,5 +1,6 @@
 package hr.bagy94.android.base.viewmodel
 
+import androidx.databinding.BaseObservable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import hr.bagy94.android.base.events.KeyboardEventUI
@@ -64,7 +65,7 @@ interface ViewModelScreenAdapter {
     }
 }
 
-open class ScreenAdapter() : ViewModelScreenAdapter {
+open class ScreenAdapter() : ViewModelScreenAdapter, BaseObservable() {
     override val loader by lazy { SingleLiveData<LoaderUI>() }
     override val toast by lazy { SingleLiveData<ToastUI>() }
     override val snackbar by lazy { SingleLiveData<SnackBarUI>() }
