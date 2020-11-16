@@ -18,7 +18,8 @@ fun snackBar(view: View, message:String, builder: Snackbar.()->Unit={}, duration
     snack.show()
 }
 
-
+@Suppress("DEPRECATION")
+@Deprecated("Use {@see hr.bagy.android.base.utils.snackBar}")
 fun fakeSnackBar(context: Context?, message:String, @ColorRes colorId : Int = android.R.color.holo_red_light, duration:Int = Toast.LENGTH_SHORT, builder:(root:View,text:TextView)-> Unit = {_,_->}){
    context?.let {
        val layout = LayoutInflater.from(it).inflate(R.layout.view_fake_snackbar, null)

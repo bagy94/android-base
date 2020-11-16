@@ -1,24 +1,16 @@
 package hr.bagy94.android.base.repository
 
-import androidx.lifecycle.MutableLiveData
 import hr.bagy94.android.base.data.*
-import hr.bagy94.android.base.error.Error
 import hr.bagy94.android.base.error.ErrorHandler
-import hr.bagy94.android.base.livedata.setToLiveData
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.PublishSubject
-import io.reactivex.rxjava3.subjects.Subject
 
 abstract class BaseRepository(override val errorHandler: ErrorHandler) : Repository{
     private var retryDisposable = CompositeDisposable()
-    internal val retryPublisher = PublishSubject.create<Unit>()
+    override val retryEvent: PublishSubject<Unit> = PublishSubject.create()
     override val dataManagerEventRelay: PublishSubject<DataManagerEvent> by lazy { PublishSubject.create<DataManagerEvent>() }
-
-    override fun retry() {
-        retryPublisher.onNext(Unit)
-    }
 
     override fun clear(){
         dataManagerEventRelay.onComplete()
@@ -32,7 +24,7 @@ abstract class BaseRepository(override val errorHandler: ErrorHandler) : Reposit
         }
 
     protected open fun getRetryEventObservable(cancelPreviousIfRetry: Boolean) =
-        retryPublisher.doOnSubscribe {
+        retryEvent.doOnSubscribe {
             if(cancelPreviousIfRetry){
                 retryDisposable.clear()
             }
@@ -44,6 +36,10 @@ abstract class BaseRepository(override val errorHandler: ErrorHandler) : Reposit
             retryDisposable = CompositeDisposable()
         }
         retryDisposable.addAll(*disposables)
+    }
+
+    protected open fun clearFailedObservables(){
+        retryDisposable.dispose()
     }
 
 }
