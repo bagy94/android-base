@@ -27,7 +27,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api kotlin
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10"
     api appCompat
     api androidXCore
     api androidLifecycle
@@ -44,6 +44,8 @@ dependencies {
 
     api koin
     api koinViewModel
+    api koinFragment
+    api koinExtensions
 
     api navigationComponentFragment
     api navigationComponentNavigationUI

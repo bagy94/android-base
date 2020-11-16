@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package hr.bagy94.android.base.screen
 
 import androidx.annotation.DrawableRes

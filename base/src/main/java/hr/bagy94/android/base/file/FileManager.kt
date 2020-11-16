@@ -28,7 +28,7 @@ open class FileManager(private val context: Context){
 
     open fun readFromInputStream(inputStream: InputStream, uri: Uri, bufferSize: Int, readListener:ReadFileListener){
         val buffer = ByteArray(bufferSize)
-        var read = 0
+        var read: Int
         var totalRead = 0
         val fileLength = inputStream.available()
         while (inputStream.read(buffer).also { read = it;totalRead += it } != -1) {
@@ -58,7 +58,6 @@ open class FileManager(private val context: Context){
         return when(data){
             is Image -> getImageConverted(data)
             is Document -> getFileConverted(data)
-            else -> TODO("You must implement conversion of ${data::class.java} in FileManager::getFileAsBase64Encoded")
         }
     }
 

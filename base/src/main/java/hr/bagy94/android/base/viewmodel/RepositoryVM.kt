@@ -24,7 +24,7 @@ interface RepositoryVM : IViewModel {
     }
 
     fun retry(){
-        repository.retry()
+        repository.retryEvent.onNext(Unit)
     }
 
     override fun clear() {

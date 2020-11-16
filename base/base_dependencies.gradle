@@ -4,30 +4,33 @@ ext {
     plugin_kotlin = "kotlin-android" // apply plugin : plugin_kotlin
     plugin_kotlin_ext = "kotlin-android-extensions" // apply plugin : plugin_kotlin_ext
     plugin_kotlin_kapt = "kotlin-kapt" // apply plugin : plugin_kotlin_kapt
+    plugin_koin = "koin" // apply plugin : plugin_koin
     plugin_android_maven = 'com.github.dcendents.android-maven' // apply plugin : plugin_android_maven
-    compileVersion = 29
+    compileVersion = 30
     minTarget = 23
-    targetVersion = 29
+    targetVersion = 30
     toolVersion = "29.0.3"
     java_compatibility = 1.8
     // Kotlin
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // Android
-    appCompat_v = '1.2.0'
+    appCompat_v = "1.2.0"
     appCompat = "androidx.appcompat:appcompat:$appCompat_v"
-    androidXCore_v = '1.3.1'
+    androidXCore_v = '1.3.2'
     androidXCore = "androidx.core:core-ktx:$androidXCore_v"
     androidLifecycle_v = '2.2.0'
     androidLifecycle = "androidx.lifecycle:lifecycle-extensions:$androidLifecycle_v"
-    androidMaterial_v = '1.3.0-alpha02'
+    androidMaterial_v = '1.3.0-alpha03'
     androidMaterial = "com.google.android.material:material:$androidMaterial_v"
     //ConstraintLayout
     constraintLayout_v = "2.0.0"
     constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayout_v"
     //Koin
-    koin_v = "2.1.6"
-    koin = "org.koin:koin-android:$koin_v"
-    koinViewModel = "org.koin:koin-android-viewmodel:$koin_v"
+    koin = "org.koin:koin-android:$koin_version"
+    koinViewModel = "org.koin:koin-androidx-viewmodel:$koin_version"
+    koinFragment = "org.koin:koin-androidx-fragment:$koin_version"
+    koinExtensions = "org.koin:koin-androidx-ext:$koin_version"
+
     //Rx
     rxJava_v = '3.0.6'
     rxJava = "io.reactivex.rxjava3:rxjava:$rxJava_v"
@@ -46,7 +49,7 @@ ext {
     okhttp = "com.squareup.okhttp3:okhttp:$okhttp_v"
     okhttp_log = "com.squareup.okhttp3:logging-interceptor:$okhttp_v"
     //Android Jetpack
-    navigationComponent_v = '2.3.0'
+    navigationComponent_v = '2.3.1'
     navigationComponentFragment = "androidx.navigation:navigation-fragment-ktx:$navigationComponent_v"
     navigationComponentNavigationUI = "androidx.navigation:navigation-ui-ktx:$navigationComponent_v"
 }
